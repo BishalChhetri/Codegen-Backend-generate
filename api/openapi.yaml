@@ -1,0 +1,264 @@
+openapi: 3.0.0
+info:
+  title: My API
+  description: API
+  contact: {}
+  version: 1.0.0
+servers:
+- url: /
+paths:
+  /auth/signup:
+    post:
+      operationId: signup
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthDto'
+        required: true
+      responses:
+        "201":
+          description: ""
+      x-swagger-router-controller: Default
+  /auth/signin:
+    post:
+      operationId: signin
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthDtoSignin'
+        required: true
+      responses:
+        "201":
+          description: ""
+      x-swagger-router-controller: Default
+  /auth/updatePassword:
+    post:
+      operationId: updatePassword
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthDtoUpdatePassword'
+        required: true
+      responses:
+        "201":
+          description: ""
+      x-swagger-router-controller: Default
+  /auth/signout:
+    get:
+      operationId: signout
+      parameters: []
+      responses:
+        "200":
+          description: ""
+      x-swagger-router-controller: Default
+  /users/me/{id}:
+    get:
+      operationId: getMyUser
+      parameters:
+      - name: id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: ""
+      x-swagger-router-controller: Default
+  /users:
+    get:
+      operationId: getUsers
+      parameters: []
+      responses:
+        "200":
+          description: ""
+      x-swagger-router-controller: Default
+  /tasks/{authorId}:
+    get:
+      operationId: getMyTask
+      parameters:
+      - name: authorId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: ""
+      x-swagger-router-controller: Default
+  /tasks/{authorId}/{filter}:
+    get:
+      operationId: getFilterTask
+      parameters:
+      - name: authorId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: filter
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: ""
+      x-swagger-router-controller: Default
+  /tasks/{id}/create:
+    post:
+      operationId: create
+      parameters:
+      - name: id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TaskDto'
+        required: true
+      responses:
+        "201":
+          description: ""
+      x-swagger-router-controller: Default
+  /tasks/{id}/update/{taskId}:
+    post:
+      operationId: updateTask
+      parameters:
+      - name: id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: taskId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TaskUpdate'
+        required: true
+      responses:
+        "201":
+          description: ""
+      x-swagger-router-controller: Default
+  /tasks/{id}/delete/{taskId}:
+    get:
+      operationId: deleteTask
+      parameters:
+      - name: id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: taskId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: ""
+      x-swagger-router-controller: Default
+  /tasks:
+    get:
+      operationId: getTasks
+      parameters: []
+      responses:
+        "200":
+          description: ""
+      x-swagger-router-controller: Default
+components:
+  schemas:
+    AuthDto:
+      required:
+      - email
+      - name
+      - password
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+    AuthDtoSignin:
+      required:
+      - email
+      - password
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+    AuthDtoUpdatePassword:
+      required:
+      - id
+      - newPassword
+      - password
+      type: object
+      properties:
+        id:
+          type: string
+        password:
+          type: string
+        newPassword:
+          type: string
+    TaskDto:
+      required:
+      - description
+      - title
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+    TaskUpdate:
+      required:
+      - description
+      - isCompleted
+      - title
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        isCompleted:
+          type: boolean
+  securitySchemes:
+    bearer:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
